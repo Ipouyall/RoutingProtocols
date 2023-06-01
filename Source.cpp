@@ -1,0 +1,213 @@
+#include <iostream>
+#include <vector>
+#include <sstream>
+#include <map>
+#include<string>
+#include <chrono>
+
+using namespace std;
+using namespace std::chrono;
+
+const int INF = 1e9;
+
+struct Edge
+{
+	int dst;
+	int cost;
+    Edge(int dst_, int cost_) {
+        dst = dst_;
+        cost = cost_;
+    }
+};
+std::vector<std::string> separating_words(std::string text, char disjunctive) {
+    vector<string> words;
+    stringstream line(text);
+    while (line.good()) {
+        string word;
+        getline(line, word, disjunctive);
+        words.push_back(word);
+    }
+    return words;
+}
+class Network
+{
+public:
+    string initialize_topology(vector<string> string_edges) {
+        topology.clear();
+        max_node = -1;
+        for (string edge_string : string_edges) {
+            vector<string> info = separating_words(edge_string, '-');
+            if (info.size() != 3) {
+                return "Error";
+            }
+            int node1 = stoi(info[0]);
+            max_node = (max_node < node1) ? node1 : max_node;
+            int node2 = stoi(info[1]);
+            max_node = (max_node < node2) ? node2 : max_node;
+            int cost = stoi(info[2]);
+            if (node1 == node2) {
+                return "Error";
+            }
+            auto node_src = topology.find(node1);
+            if (node_src != topology.end()) {
+                node_src->second.push_back(Edge(node2, cost));
+            }
+            else {
+                vector<Edge> edges;
+                edges.push_back(Edge(node2, cost));
+                topology.insert({ node1, edges });
+            }
+            auto node_dst = topology.find(node2);
+            if (node_dst != topology.end()) {
+                node_dst->second.push_back(Edge(node1, cost));
+            }
+            else {
+                vector<Edge> edges;
+                edges.push_back(Edge(node1, cost));
+                topology.insert({ node2, edges });
+            }
+        }
+        return "OK";
+
+    }
+    int get_edge_index(int src, int dst) {
+        auto node = topology.find(src);
+        for (int i = 0; i < node->second.size(); i++) {
+            if (node->second[i].dst == dst)
+                return i;
+        }
+        return -1;
+    }
+    int get_edge_index(vector<Edge> edges, int dst) {
+        for (int i = 0; i < edges.size(); i++) {
+            if (edges[i].dst == dst)
+                return i;
+        }
+        return -1;
+    }
+    int get_unmarked_min_edge_index(vector<Edge> edges, vector<bool> marks) {
+        int min = INF;
+        int index = -1;
+        for (int i = 0; i < edges.size(); i++) {
+            if (marks[i] == false && edges[i].cost < min) {
+                min = edges[i].cost;
+                index = i;
+            }
+        }
+        return index;
+    }
+    string modify_edge(string string_edge) {
+        vector<string> info = separating_words(string_edge, '-');
+        int node1 = stoi(info[0]);
+        max_node = (max_node < node1) ? node1 : max_node;
+        int node2 = stoi(info[1]);
+        max_node = (max_node < node2) ? node2 : max_node;
+        int cost = stoi(info[2]);
+        if (node1 == node2) {
+            return "Error";
+        }
+        auto node_src = topology.find(node1);
+        if (node_src != topology.end()) {
+            if (get_edge_index(node1, node2) != -1)
+                node_src->second[get_edge_index(node1, node2)].cost = cost;
+            else
+                node_src->second.push_back(Edge(node2, cost));
+        }
+        else {
+            vector<Edge> edges;
+            edges.push_back(Edge(node2, cost));
+            topology.insert({ node1, edges });
+        }
+        auto node_dst = topology.find(node2);
+        if (node_dst != topology.end()) {
+            if (get_edge_index(node2, node1) != -1)
+                node_dst->second[get_edge_index(node2, node1)].cost = cost;
+            else
+                node_dst->second.push_back(Edge(node1, cost));
+        }
+        else {
+            vector<Edge> edges;
+            edges.push_back(Edge(node1, cost));
+            topology.insert({ node2, edges });
+        }
+        return "OK";
+    }
+    string remove_edge(string string_edge) {
+        vector<string> info = separating_words(string_edge, '-');
+        int node1 = stoi(info[0]);
+        int node2 = stoi(info[1]);
+        auto node_src = topology.find(node1);
+        auto node_dst = topology.find(node2);
+        if (node_src == topology.end() || node_dst == topology.end()) {
+            return "Error";
+        }
+        if (get_edge_index(node1, node2) != -1)
+            node_src->second.erase(node_src->second.begin() + get_edge_index(node1, node2));
+        else
+            return "Error";
+        if (get_edge_index(node2, node1) != -1)
+            node_dst->second.erase(node_dst->second.begin() + get_edge_index(node2, node1));
+        else
+            return "Error";
+        return "OK";
+    }
+    void show() {
+        cout << "  |";
+        for (int i = 1; i <= max_node; i++) {
+            cout << " " << i;
+        }
+        cout << endl;
+        cout << "--------------------------------------------------------------" << endl;
+        for (int i = 1; i <= max_node; i++) {
+            cout << i << " |";
+            for (int j = 1; j <= max_node; j++) {
+                auto node = topology.find(i);
+                if (node != topology.end() && get_edge_index(i, j) != -1) {
+                    cout << " " << node->second[get_edge_index(i, j)].cost;
+                }
+                else {
+                    cout << " " << -1;
+                }
+            }
+            cout << endl;
+        }
+    }
+
+
+private:
+	map<int, vector<Edge>, less<int>> topology;
+    int max_node;
+};
+
+
+void run(Network& network, string cmd) {
+    vector<string> cmd_parts = separating_words(cmd, ' ');
+    if (cmd_parts[0] == "topology") {
+        cmd_parts.erase(cmd_parts.begin());
+        cout << network.initialize_topology(cmd_parts) << endl;
+    }
+    else if (cmd_parts[0] == "show") {
+        network.show();
+    }
+    else if (cmd_parts[0] == "modify") {
+        cout << network.modify_edge(cmd_parts[1]) << endl;
+    }
+    else if (cmd_parts[0] == "remove") {
+        cout << network.remove_edge(cmd_parts[1]) << endl;
+    }
+    else{
+        cout << "Wrong command!!!" << endl;
+    }
+
+}
+
+int main() {
+	cout << "welcome to network!" << endl;
+    Network nn;
+    string cmd;
+    while (getline(cin, cmd)) {
+        run(nn, cmd);
+    }
+    //topology 1-2-19 1-3-9 2-4-3 1-4-5
+	return 0;
+}
