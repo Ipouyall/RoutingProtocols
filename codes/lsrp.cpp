@@ -33,25 +33,26 @@ void print_lsrp_iter(int max_node, int iter_num, vector<Edge> nodes) {
 }
 
 
-void lsrp(Network* network, int source) {
-
+void lsrp(Network* network, int source, bool log_time) {
+    auto start = std::chrono::steady_clock::now();
     auto topology = network->get_topology();
     int max_node = network->get_max_node();
     vector<Edge> nodes;
     vector<bool> marks(max_node, false);
     vector<vector<int> > paths(max_node);
     auto node = topology.find(source);
-    auto start = std::chrono::steady_clock::now();
-    auto stop = std::chrono::steady_clock::now();
+    auto stop = start;
+    auto print_time = std::chrono::nanoseconds (0);
+
     for (int i = 1; i <= max_node; i++) {
         if (i == source) {
             nodes.push_back(Edge(i, 0));
+            continue;
         }
-        else {
             nodes.push_back(Edge(i, INF));
-        }
     }
     paths[source - 1].push_back(source);
+
     for (int i = 0; i < max_node; i++) {
         int min_index = network->get_unmarked_min_edge_index(nodes, marks);
         if (min_index == -1)
@@ -60,19 +61,25 @@ void lsrp(Network* network, int source) {
         auto mark_node = topology.find(mark_node_num);
         marks[min_index] = true;
 
-        if (i != 0)
+        if (i != 0) {
+            auto print_st = std::chrono::steady_clock::now();
             print_lsrp_iter(max_node, i, nodes);
+            auto print_ed = std::chrono::steady_clock::now();
+            print_time += std::chrono::duration_cast<std::chrono::nanoseconds>(print_ed - print_st);
+        }
 
         for (int j = 0; j < mark_node->second.size(); j++) {
-            if (nodes[min_index].cost + mark_node->second[j].cost < nodes[mark_node->second[j].dst - 1].cost) {
-                nodes[mark_node->second[j].dst - 1].cost = nodes[min_index].cost + mark_node->second[j].cost;
-                vector<int> parent_path = paths[min_index];
-                parent_path.push_back(mark_node->second[j].dst);
-                paths[mark_node->second[j].dst - 1] = parent_path;
-            }
+            if (nodes[min_index].cost + mark_node->second[j].cost >= nodes[mark_node->second[j].dst - 1].cost)
+                continue;
+            nodes[mark_node->second[j].dst - 1].cost = nodes[min_index].cost + mark_node->second[j].cost;
+            vector<int> parent_path = paths[min_index];
+            parent_path.push_back(mark_node->second[j].dst);
+            paths[mark_node->second[j].dst - 1] = parent_path;
         }
 
     }
+    stop = std::chrono::steady_clock::now();
+
     cout << "Path [s] -> [d] | Min-Cost | Shortest-Path" << endl;
     for (int i = 0; i < nodes.size(); i++) {
         if (i + 1 == source)
@@ -86,8 +93,8 @@ void lsrp(Network* network, int source) {
         }
         cout << endl;
     }
-    stop = std::chrono::steady_clock::now();
-    auto duration = duration_cast<nanoseconds>(stop - start);
-    cout << "time: " << duration.count() << " ns" << endl;
 
+    auto duration = duration_cast<nanoseconds>(stop - start - print_time);
+    if (log_time)
+        cout << "time: " << duration.count() << " ns" << endl;
 }

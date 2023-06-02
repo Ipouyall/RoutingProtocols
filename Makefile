@@ -29,7 +29,7 @@ $(OBJDIR)/%.o: $(SRCDIR)/%.cpp
 test: build
 	@for i in $(TESTDIR)/*.input; do \
 		echo "Running test $${i%.input}"; \
-		./$(TARGET) < $$i > $${i%.input}.result; \
+		./$(TARGET) test < $$i > $${i%.input}.result; \
 		if diff -w $${i%.input}.result $${i%.input}.output >/dev/null; then \
 			echo "$(GREEN)  Test Passed.$(NC)"; \
 		else \

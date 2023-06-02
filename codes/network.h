@@ -21,8 +21,13 @@ std::vector<std::string> separating_words(std::string text, char disjunctive);
 std::string pretty_string(int content, int desired_len);
 
 class Network{
+private:
+    std::map<int, std::vector<Edge>, std::less<int> > topology;
+    int max_node;
+    bool test_mode;
 
 public:
+    Network(bool test=false);
     std::string initialize_topology(std::vector<std::string> string_edges);
     int get_edge_index(int src, int dst);
     int get_edge_index(std::vector<Edge> edges, int dst);
@@ -37,9 +42,5 @@ public:
     int get_max_node();
 
     void show();
-
-private:
-    std::map<int, std::vector<Edge>, std::less<int> > topology;
-    int max_node;
 };
 #endif //ROUTINGPROTOCOLS_NETWORK_H

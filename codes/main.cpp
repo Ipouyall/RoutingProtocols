@@ -31,14 +31,17 @@ void run(Network& network, string cmd) {
             network.run_lsrp_all();
     }
     else{
-        cout << "Wrong command!!!" << endl;
+        cout << "Wrong command!" << endl;
     }
-
 }
 
-int main() {
+int main(int argc, char* argv[]) {
 	cout << "welcome to network!" << endl;
-    Network nn;
+    bool test_mode = false;
+    if (argc == 2)
+        if (string(argv[1]) == "test")
+            test_mode = true;
+    Network nn(test_mode);
     string cmd;
     while (getline(cin, cmd)) {
         run(nn, cmd);
