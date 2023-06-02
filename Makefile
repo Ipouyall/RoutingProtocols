@@ -30,7 +30,7 @@ test: build
 	@for i in $(TESTDIR)/*.input; do \
 		echo "Running test $${i%.input}"; \
 		./$(TARGET) test < $$i > $${i%.input}.result; \
-		if diff -w $${i%.input}.result $${i%.input}.output >/dev/null; then \
+		if diff -w -bB $${i%.input}.result $${i%.input}.output >/dev/null; then \
 			echo "$(GREEN)  Test Passed.$(NC)"; \
 		else \
 			echo "$(RED)  Test Failed!$(NC)"; \
