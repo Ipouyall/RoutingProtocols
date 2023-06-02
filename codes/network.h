@@ -29,6 +29,13 @@ public:
     int get_unmarked_min_edge_index(std::vector<Edge> edges, std::vector<bool> marks);
     std::string modify_edge(std::string string_edge);
     std::string remove_edge(std::string string_edge);
+
+    void run_lsrp(int source);
+    void run_lsrp_all();
+
+    std::map<int, std::vector<Edge>, std::less<int> > get_topology();
+    int get_max_node();
+
     void show();
 
 private:

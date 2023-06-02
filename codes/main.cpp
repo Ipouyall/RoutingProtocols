@@ -24,6 +24,12 @@ void run(Network& network, string cmd) {
     else if (cmd_parts[0] == "remove") {
         cout << network.remove_edge(cmd_parts[1]) << endl;
     }
+    else if (cmd_parts[0] == "lsrp") {
+        if (cmd_parts.size() == 2)
+            network.run_lsrp(stoi(cmd_parts[1]));
+        else
+            network.run_lsrp_all();
+    }
     else{
         cout << "Wrong command!!!" << endl;
     }

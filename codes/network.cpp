@@ -1,4 +1,5 @@
 #include "network.h"
+#include "lsrp.h"
 
 using namespace std;
 using namespace std::chrono;
@@ -204,3 +205,16 @@ void Network::show() {
         cout << endl;
     }
 }
+
+void Network::run_lsrp(int source) {
+    lsrp(this, source);
+}
+void Network::run_lsrp_all() {
+    for (int i = 1; i <= max_node; i++) {
+        cout << "Node " << i << ":" << endl;
+        run_lsrp(i);
+        cout << "########################################################################" << endl;
+    }
+}
+map<int, vector<Edge>, less<int>> Network::get_topology() { return topology; }
+int Network::get_max_node() { return max_node; }
