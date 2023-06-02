@@ -2,7 +2,7 @@
 #include <vector>
 #include <sstream>
 #include <map>
-#include<string>
+#include <string>
 #include <chrono>
 
 using namespace std;
@@ -19,6 +19,7 @@ struct Edge
         cost = cost_;
     }
 };
+
 std::vector<std::string> separating_words(std::string text, char disjunctive) {
     vector<string> words;
     stringstream line(text);
@@ -29,8 +30,8 @@ std::vector<std::string> separating_words(std::string text, char disjunctive) {
     }
     return words;
 }
-class Network
-{
+
+class Network{
 public:
     string initialize_topology(vector<string> string_edges) {
         topology.clear();
@@ -55,7 +56,7 @@ public:
             else {
                 vector<Edge> edges;
                 edges.push_back(Edge(node2, cost));
-                topology.insert({ node1, edges });
+                topology[node1] = edges;
             }
             auto node_dst = topology.find(node2);
             if (node_dst != topology.end()) {
@@ -64,12 +65,13 @@ public:
             else {
                 vector<Edge> edges;
                 edges.push_back(Edge(node1, cost));
-                topology.insert({ node2, edges });
+                topology[node2] = edges;
             }
         }
         return "OK";
 
     }
+
     int get_edge_index(int src, int dst) {
         auto node = topology.find(src);
         for (int i = 0; i < node->second.size(); i++) {
@@ -78,6 +80,7 @@ public:
         }
         return -1;
     }
+
     int get_edge_index(vector<Edge> edges, int dst) {
         for (int i = 0; i < edges.size(); i++) {
             if (edges[i].dst == dst)
@@ -85,11 +88,12 @@ public:
         }
         return -1;
     }
+
     int get_unmarked_min_edge_index(vector<Edge> edges, vector<bool> marks) {
         int min = INF;
         int index = -1;
         for (int i = 0; i < edges.size(); i++) {
-            if (marks[i] == false && edges[i].cost < min) {
+            if (!marks[i] && edges[i].cost < min) {
                 min = edges[i].cost;
                 index = i;
             }
@@ -116,7 +120,7 @@ public:
         else {
             vector<Edge> edges;
             edges.push_back(Edge(node2, cost));
-            topology.insert({ node1, edges });
+            topology[node1] = edges;
         }
         auto node_dst = topology.find(node2);
         if (node_dst != topology.end()) {
@@ -128,10 +132,11 @@ public:
         else {
             vector<Edge> edges;
             edges.push_back(Edge(node1, cost));
-            topology.insert({ node2, edges });
+            topology[node2] = edges;
         }
         return "OK";
     }
+
     string remove_edge(string string_edge) {
         vector<string> info = separating_words(string_edge, '-');
         int node1 = stoi(info[0]);
@@ -151,7 +156,8 @@ public:
             return "Error";
         return "OK";
     }
-    void show() {
+
+    void show() { //TODO: make it well formatted
         cout << "  |";
         for (int i = 1; i <= max_node; i++) {
             cout << " " << i;
@@ -173,9 +179,8 @@ public:
         }
     }
 
-
 private:
-	map<int, vector<Edge>, less<int>> topology;
+	map<int, vector<Edge>, less<int> > topology;
     int max_node;
 };
 
