@@ -31,6 +31,18 @@ std::vector<std::string> separating_words(std::string text, char disjunctive) {
     return words;
 }
 
+string pretty_string(int content, int desired_len){
+    string res;
+    int indent = desired_len - to_string(content).length();
+    int pre_ = indent/2;
+    for (int k = 0; k < indent - pre_; k++)
+        res += " ";
+    res += to_string(content);
+    for (int k = 0; k < pre_; k++)
+        res += " ";
+    return res;
+}
+
 class Network{
 public:
     string initialize_topology(vector<string> string_edges) {
@@ -157,27 +169,55 @@ public:
         return "OK";
     }
 
-    void show() { //TODO: make it well formatted
-        cout << "  |";
+    void show() {
+        int section_size[max_node+1];
+        section_size[0] = 1 + to_string(max_node).length();
+        for (int i = 0; i < section_size[0]; i++)
+            cout << ' ';
+        cout << '|';
         for (int i = 1; i <= max_node; i++) {
-            cout << " " << i;
-        }
-        cout << endl;
-        cout << "--------------------------------------------------------------" << endl;
-        for (int i = 1; i <= max_node; i++) {
-            cout << i << " |";
+            int max_sec_size = 0;
             for (int j = 1; j <= max_node; j++) {
                 auto node = topology.find(i);
-                if (node != topology.end() && get_edge_index(i, j) != -1) {
-                    cout << " " << node->second[get_edge_index(i, j)].cost;
-                }
-                else {
-                    cout << " " << -1;
-                }
+                int cost = i==j ? 0 : -1;
+                if (node != topology.end() && get_edge_index(i, j) != -1)
+                    cost = node->second[get_edge_index(i, j)].cost;
+                int sec_size = 2 + to_string(cost).length();
+                max_sec_size = (max_sec_size < sec_size) ? sec_size : max_sec_size;
+            }
+            section_size[i] = max_sec_size;
+        }
+        for (int i = 1; i <= max_node; i++) {
+            cout << pretty_string(i, section_size[i]) << '|';
+        }
+        cout << endl;
+        for (int i = 0; i < section_size[0]; i++)
+            cout << '-';
+        cout << '+';
+        for (int i = 1; i <= max_node; i++) {
+            for (int j = 0; j < section_size[i]; j++)
+                cout << '-';
+            cout << '+';
+        }
+        cout << endl;
+        for (int i = 1; i <= max_node; i++) {
+            cout << i;
+            int indent = section_size[0] - to_string(i).length();
+            for (int j = 0; j < indent; j++)
+                cout << ' ';
+            cout << '|';
+            for (int j = 1; j <= max_node; j++) {
+                auto node = topology.find(i);
+                int cost = i==j ? 0 : -1;
+                if (node != topology.end() && get_edge_index(i, j) != -1)
+                    cost = node->second[get_edge_index(i, j)].cost;
+                cout << pretty_string(cost, section_size[i]) << '|';
             }
             cout << endl;
         }
     }
+
+
 
 private:
 	map<int, vector<Edge>, less<int> > topology;
