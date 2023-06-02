@@ -5,15 +5,31 @@ using namespace std::chrono;
 
 void print_lsrp_iter(int max_node, int iter_num, vector<Edge> nodes) {
     cout << "Iter " << iter_num << ":" << endl;
+    int indent = 5 + to_string(iter_num).length();
+    int indents[max_node+1], max_len = indent;
+    indents[0] = indent + 1;
     cout << "Dest";
+    for (int i = 0; i < indent-4; i++)
+        cout << " ";
+    cout << "|";
+    for (int i=0; i<nodes.size(); i++) {
+        indents[i + 1] = 2 + max(to_string(nodes[i].dst).length(), to_string(nodes[i].cost).length());
+        max_len +=  indents[i + 1]+1;
+    }
     for (int i = 1; i <= max_node; i++)
-        cout << " " << i << " |";
+        cout << pretty_string(i, indents[i]) << "|";
     cout << endl;
     cout << "cost";
-    for (Edge node : nodes)
-        cout << " " << ((node.cost == INF) ? -1 : node.cost) << " |";
+    for (int i = 0; i < indent-4; i++)
+        cout << " ";
+    cout << "|";
+    for (int i=0; i<nodes.size(); i++)
+        cout << pretty_string(nodes[i].cost, indents[i+1]) << "|";
     cout << endl;
-    cout << "--------------------------------------------------------------" << endl;
+
+    while (max_len--)
+        cout << "-";
+    cout << "-" << endl;
 }
 
 
