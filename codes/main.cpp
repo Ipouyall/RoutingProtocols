@@ -211,10 +211,13 @@ public:
                 int cost = i==j ? 0 : -1;
                 if (node != topology.end() && get_edge_index(i, j) != -1)
                     cost = node->second[get_edge_index(i, j)].cost;
-                cout << pretty_string(cost, section_size[i]) << '|';
+                cout << pretty_string(cost, section_size[j]) << '|';
             }
             cout << endl;
         }
+//        for  (int i = 0; i <= max_node; i++)
+//            cout << section_size[i] << ' ';
+//        cout << endl;
     }
 
 
