@@ -13,7 +13,8 @@ void print_lsrp_iter(int max_node, int iter_num, vector<Edge> nodes) {
         cout << " ";
     cout << "|";
     for (int i=0; i<nodes.size(); i++) {
-        indents[i + 1] = 2 + max(to_string(nodes[i].dst).length(), to_string(nodes[i].cost).length());
+        indents[i + 1] = 2 + max(to_string(nodes[i].dst).length(),
+                                 to_string(nodes[i].cost==INF?  -1 : nodes[i].cost).length());
         max_len +=  indents[i + 1]+1;
     }
     for (int i = 1; i <= max_node; i++)
@@ -24,7 +25,7 @@ void print_lsrp_iter(int max_node, int iter_num, vector<Edge> nodes) {
         cout << " ";
     cout << "|";
     for (int i=0; i<nodes.size(); i++)
-        cout << pretty_string(nodes[i].cost, indents[i+1]) << "|";
+        cout << pretty_string(nodes[i].cost==INF ? -1 : nodes[i].cost, indents[i+1]) << "|";
     cout << endl;
 
     while (max_len--)
@@ -100,7 +101,7 @@ void lsrp(Network* network, int source, bool log_time) {
         cout << " | ";
         for (int j = 0; j < (int)paths[i].size(); j++) {
             if (j != (int)paths[i].size() - 1)
-                cout << paths[i][j] << "->";
+                cout << paths[i][j] << " -> ";
             else
                 cout << paths[i][j];
         }
