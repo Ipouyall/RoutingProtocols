@@ -79,12 +79,25 @@ void lsrp(Network* network, int source, bool log_time) {
 
     }
     stop = std::chrono::steady_clock::now();
+    cout << "Path [s";
+    for (int i = 1; i < to_string(source).length(); i++)
+        cout << " ";
+    cout << "] -> [d";
+    for (int i = 1; i < to_string(max_node).length(); i++)
+        cout << " ";
+    cout << "] | Min-Cost | Shortest-Path" << endl;
 
-    cout << "Path [s] -> [d] | Min-Cost | Shortest-Path" << endl;
     for (int i = 0; i < nodes.size(); i++) {
         if (i + 1 == source)
             continue;
-        cout << source << "->" << i + 1 << " | " << ((nodes[i].cost == INF) ? -1 : nodes[i].cost) << " | ";
+        cout << "     [" << source << "] -> [" << i + 1;
+        for (int j = to_string(i + 1).length(); j < to_string(max_node).length(); j++)
+            cout << " ";
+        int cost = (nodes[i].cost == INF) ? -1 : nodes[i].cost;
+        cout << "] | " << cost;
+        for (int j = to_string(cost).length(); j < 8; j++)
+            cout << " ";
+        cout << " | ";
         for (int j = 0; j < (int)paths[i].size(); j++) {
             if (j != (int)paths[i].size() - 1)
                 cout << paths[i][j] << "->";
