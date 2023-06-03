@@ -30,6 +30,9 @@ void run(Network& network, string cmd) {
         else
             network.run_lsrp_all();
     }
+    else if (cmd_parts[0] == "dvrp"){
+        network.run_dvrp(stoi(cmd_parts[1]));
+    }    
     else{
         cout << "Wrong command!" << endl;
     }

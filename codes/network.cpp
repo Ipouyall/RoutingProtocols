@@ -1,5 +1,6 @@
 #include "network.h"
 #include "lsrp.h"
+#include "dvrp.h"
 
 using namespace std;
 using namespace std::chrono;
@@ -219,6 +220,10 @@ void Network::run_lsrp_all() {
         run_lsrp(i);
         cout << '\n' << endl;
     }
+}
+
+void Network::run_dvrp(int source) {
+        dvrp(this, source, !test_mode);
 }
 
 map<int, vector<Edge>, less<int>> Network::get_topology() {
