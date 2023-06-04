@@ -83,7 +83,7 @@ for (int j = 0; j < mark_node->second.size(); j++) {
 After that we print the result of algorithm.
 Here is example for `topology 1-2-19 1-3-9 2-4-3 1-4-5` for node source = 1:
 
-![LSRPexample](screenshots/lsrp_example.png)
+![LSRPexample](screenshots/lsrp-example.png)
 
 ## DVRP
 As we know this alghrithm use the Bellman Ford algorithm. In these protocols, each router does not have network topology. 
