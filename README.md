@@ -168,7 +168,7 @@ Here's a high-level overview of how BGP works:
 - Each router maintains a routing table containing the best routes to reach different destinations. 
 - When a router receives an update from a peer, it processes the update and modifies its routing table if necessary. 
 - The router propagates the updated information to its other peers.
-This process continues until the routing tables of all routers converge to stable values.
+- This process continues until the routing tables of all routers converge to stable values.
 
 
 One moment while I search the internet...
