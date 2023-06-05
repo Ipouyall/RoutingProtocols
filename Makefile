@@ -38,6 +38,11 @@ test: build
 		rm $${i%.input}.result; \
 	done
 
+# Evaluation rules
+eval: build
+	@echo "$(GREEN)  Starting evaluation...$(NC)"; \
+	./$(TARGET) < ./evaluation/eval > ./evaluation/result;
+
 # Default, we want to build and test program
 all: build test
 
