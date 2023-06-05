@@ -215,6 +215,7 @@ void Network::run_lsrp(int source) {
 }
 
 void Network::run_lsrp_all() {
+    cout << "***[Link State Routing Protocol]***" << endl;
     for (int i = 1; i <= max_node; i++) {
         cout << "***[Node " << i << "]***" << endl;
         run_lsrp(i);
@@ -224,6 +225,15 @@ void Network::run_lsrp_all() {
 
 void Network::run_dvrp(int source) {
         dvrp(this, source, !test_mode);
+}
+
+void Network::run_dvrp_all() {
+    cout << "***[Distance Vector Routing Protocol]***" << endl;
+    for (int i = 1; i <= max_node; i++) {
+        cout << "***[Node " << i << "]***" << endl;
+        run_dvrp(i);
+        cout << '\n' << endl;
+    }
 }
 
 map<int, vector<Edge>, less<int>> Network::get_topology() {
