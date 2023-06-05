@@ -136,9 +136,6 @@ where `n` is the number of nodes in the network.
 This is because of DVRP has the same time complexity as bellman-ford algorithm (which is $`O(V.E)`$ and $`E=O(V^2)`$)
 
 ## Border Gateway Protocol (BGP)
-One moment while I search the internet...
-
-__ff__source[{"title":"Border Gateway Protocol - Wikipedia","url":"https://en.wikipedia.org/wiki/Border_Gateway_Protocol","favicon":"https://www.google.com/s2/favicons?sz=64&domain_url=https://en.wikipedia.org/wiki/Border_Gateway_Protocol"},{"title":"What is BGP and How Does Border Gateway Protocol Work?","url":"https://www.techtarget.com/searchnetworking/definition/BGP-Border-Gateway-Protocol","favicon":"https://www.google.com/s2/favicons?sz=64&domain_url=https://www.techtarget.com/searchnetworking/definition/BGP-Border-Gateway-Protocol"},{"title":"www.cloudflare.com","url":"https://www.cloudflare.com/learning/security/glossary/what-is-bgp/","favicon":"https://www.google.com/s2/favicons?sz=64&domain_url=https://www.cloudflare.com/learning/security/glossary/what-is-bgp/"}]__endsourceIn the Border Gateway Protocol (BGP), routers exchange routing information between autonomous systems (ASes). BGP is a path vector protocol that constructs an autonomous systems' graph based on the information exchanged between BGP routers. It is designed to be highly scalable and is used to maintain routing tables on the Internet.
 
 BGP routers establish connections with their neighbors, called BGP peers, and exchange routing information. Each BGP router maintains a routing table that contains the best routes to reach different destinations. When a router receives an update from a peer, it processes the update and, if necessary, modifies its routing table. The router then propagates the updated information to its other peers.
 
