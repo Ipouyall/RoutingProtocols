@@ -113,4 +113,4 @@ we store nodes routing tables of each node and each node just know about it's ne
 
 Here is example for `topology 1-2-19 1-3-9 2-4-3 1-4-5` for node source = 1:
 
-![DVRPexample](screenshots/dvrp_example.png)
+![DVRPexample](screenshots/dvrp-example.png)
