@@ -58,6 +58,17 @@ Here are which functionality would test by each of our test:
 - test3: to test DVRP
 - test4: to test BGP
 
+# Network
+Here are a sample result for different network modifying actions and their result:
+- Topology ($1 \leftrightarrow 2=19$, $1 \leftrightarrow 3=9$ $2 \leftrightarrow 4=3$ $1 \leftrightarrow 4=5$)
+![topology](screenshots/topology.png)
+- Modify (edit cost)
+![modify edit](screenshots/modify1.png)
+- Modify (add new link)
+![modify new](screenshots/modify2.png)
+- Remove
+![remove](screenshots/remove.png)
+
 # Protocols
 In this section, 
 ## Link State Routing Protocol (LSRP)
