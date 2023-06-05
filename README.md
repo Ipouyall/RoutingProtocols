@@ -107,9 +107,9 @@ Here is example for `topology 1-2-19 1-3-9 2-4-3 1-4-5` for node source = 1:
 ![LSRPexample](screenshots/lsrp-example.png)
 
 ### Time Complexity
-The time complexity of the Link State Routing Protocol (LSRP) is `$O(n^3)$`,
+The time complexity of the Link State Routing Protocol (LSRP) is $`O(n^3)`$,
 where `n` is the number of nodes in the network.
-This is because of LSRP has the same time complexity as dijkstra algorithm (which is $O(n^3)$)
+This is because of LSRP has the same time complexity as dijkstra algorithm (which is $`O(n^3)`$)
 
 ## Distance Vector Routing Protocol (DVRP)
 As we know this alghrithm use the Bellman Ford algorithm. In these protocols, each router does not have network topology. 
@@ -131,6 +131,6 @@ Here is example for `topology 1-2-19 1-3-9 2-4-3 1-4-5` for node source = 1:
 ![DVRPexample](screenshots/dvrp-example.png)
 
 ### Time Complexity
-The time complexity of the Distance Vector Routing Protocol (DVRP) is `$O(n^3)$`, 
+The time complexity of the Distance Vector Routing Protocol (DVRP) is $`O(n^3)`$, 
 where `n` is the number of nodes in the network. 
-This is because of DVRP has the same time complexity as bellman-ford algorithm (which is $O(V.E)$ and $E=O(V^2)$)
+This is because of DVRP has the same time complexity as bellman-ford algorithm (which is $`O(V.E)`$ and $`E=O(V^2)`$)
