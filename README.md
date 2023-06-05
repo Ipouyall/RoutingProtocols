@@ -60,7 +60,7 @@ Here are which functionality would test by each of our test:
 
 # Network
 Here are a sample result for different network modifying actions and their result:
-- Topology ($1 \leftrightarrow 2=19$, $1 \leftrightarrow 3=9$ $2 \leftrightarrow 4=3$ $1 \leftrightarrow 4=5$)
+- Topology ($1 \leftrightarrow 2=19$, $1 \leftrightarrow 3=9$, $2 \leftrightarrow 4=3$, $1 \leftrightarrow 4=5$)
 ![topology](screenshots/topology.png)
 - Modify (edit cost)
 ![modify edit](screenshots/modify1.png)
