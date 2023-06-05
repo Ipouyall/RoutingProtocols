@@ -193,3 +193,42 @@ and the frequency of routing updates. However, BGP is designed to be highly scal
 and can handle large-scale networks like the Internet. 
 The convergence time of BGP can vary depending on the network topology and configuration, 
 but it generally `converges faster than other routing protocols like RIP or OSPF`.
+
+
+# Comparison
+
+- *Before* removing $4 \leftrightarrow 10$
+
+|Source Node|LSRP (ns)|DVRP (ns)|BGP (ns)|
+|---|---|--|--|
+|1|60127|304708|-|
+|2|52166|282209|-|
+|3|51249|304250|-|
+|4|49749|478792|-|
+|5|48628|313584|-|
+|6|46290|336542|-|
+|7|50707|281208|-|
+|8|49499|345375|-|
+|9|48961|278000|-|
+|10|44375|390750|-|
+|11|43334|321792|-|
+|12|43458|295208|-|
+|13|41374|399917|-|
+
+- *After* removing $4 \leftrightarrow 10$
+
+|Source Node|LSRP (ns)|DVRP (ns)|BGP (ns)|
+|---|---|--|--|
+|1|48875|276375|-|
+|2|41458|232583|-|
+|3|40877|252167|-|
+|4|38459|327750|-|
+|5|40667|298334|-|
+|6|38040|276209|-|
+|7|40878|218084|-|
+|8|38498|245750|-|
+|9|39416|232833|-|
+|10|41123|396375|-|
+|11|40373|270833|-|
+|12|39083|238250|-|
+|13|38083|283709|-|
