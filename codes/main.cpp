@@ -14,25 +14,35 @@ void run(Network& network, string cmd) {
     if (cmd_parts[0] == "topology") {
         cmd_parts.erase(cmd_parts.begin());
         cout << network.initialize_topology(cmd_parts) << endl;
+        return;
     }
-    else if (cmd_parts[0] == "show") {
+     if (cmd_parts[0] == "show") {
         network.show();
+        return;
     }
-    else if (cmd_parts[0] == "modify") {
+     if (cmd_parts[0] == "modify") {
         cout << network.modify_edge(cmd_parts[1]) << endl;
+        return;
     }
-    else if (cmd_parts[0] == "remove") {
+     if (cmd_parts[0] == "remove") {
         cout << network.remove_edge(cmd_parts[1]) << endl;
+         return;
     }
-    else if (cmd_parts[0] == "lsrp") {
+     if (cmd_parts[0] == "lsrp") {
         if (cmd_parts.size() == 2)
             network.run_lsrp(stoi(cmd_parts[1]));
         else
             network.run_lsrp_all();
+        return;
     }
-    else{
-        cout << "Wrong command!" << endl;
+    if (cmd_parts[0] == "dvrp") {
+        if (cmd_parts.size() == 2)
+            network.run_dvrp(stoi(cmd_parts[1]));
+        else
+            network.run_dvrp_all();
+        return;
     }
+    cout << "Wrong command!" << endl;
 }
 
 int main(int argc, char* argv[]) {

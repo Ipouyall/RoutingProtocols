@@ -38,6 +38,9 @@ public:
     void run_lsrp(int source);
     void run_lsrp_all();
 
+    void run_dvrp(int source);
+    void run_dvrp_all();
+
     std::map<int, std::vector<Edge>, std::less<int> > get_topology();
     int get_max_node();
 
